@@ -219,7 +219,7 @@ const lockVariants = {
     scale: 1,
     boxShadow: "0 0 60px rgba(34,197,94,0.4)",
     transition: {
-      type: "spring",
+      type: "spring" as const, 
       stiffness: 120,
       damping: 18,
     },
@@ -229,7 +229,7 @@ const lockVariants = {
     scale: 1.04,
     boxShadow: "0 0 80px rgba(34,197,94,0.8)",
     transition: {
-      type: "spring",
+      type: "spring" as const,
       stiffness: 140,
       damping: 16,
     },
@@ -241,7 +241,7 @@ const dialVariants = {
   idle: { rotate: 0, transition: { duration: 1.1, ease: "easeOut" } },
   open: {
     rotate: 28,
-    transition: { type: "spring", stiffness: 80, damping: 10 },
+    transition: { type: "spring" as const, stiffness: 80, damping: 10 },
   },
 };
 
