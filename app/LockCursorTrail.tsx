@@ -238,7 +238,7 @@ const lockVariants = {
 
 const dialVariants = {
   initial: { rotate: -20 },
-  idle: { rotate: 0, transition: { duration: 1.1, ease: "easeOut" } },
+  idle: { rotate: 0, transition: { duration: 1.1, ease: "easeOut" as const } },
   open: {
     rotate: 28,
     transition: { type: "spring" as const, stiffness: 80, damping: 10 },
@@ -304,7 +304,7 @@ function TrailGlyph({ point, index, total, isNearLock }: TrailGlyphProps) {
       }}
       transition={{
         duration: 1.9,
-        ease: "easeOut",
+        ease: "easeOut" as const,
       }}
       className="pointer-events-none fixed -translate-x-1/2 -translate-y-1/2 select-none font-mono uppercase tracking-[0.2em] text-emerald-400"
       style={{
@@ -341,7 +341,7 @@ function Typewriter({ children, delay = 0 }: TypewriterProps) {
           y: 0,
           transition: {
             duration: 0.5,
-            ease: "easeOut",
+            ease: "easeOut" as const,
           },
         },
       }}
