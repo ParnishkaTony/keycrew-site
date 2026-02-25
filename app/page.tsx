@@ -2,8 +2,9 @@
 "use client";
 
 import * as React from "react";
+import { createPortal } from "react-dom";
 import { motion } from "framer-motion";
-import { Mail, Instagram, MessageCircle, Send } from "lucide-react";
+import { Mail, Instagram, MessageCircle, Send, ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import { Waves } from "./Waves";
 const fadeInUp = {
@@ -120,8 +121,28 @@ const specialProjects = [
 const partners = ["BRAND A", "BRAND B", "BRAND C", "INSTITUTION", "VENUE"];
 
 export default function Home() {
+  const [showContactForm, setShowContactForm] = React.useState(false);
+  const [formSubmitting, setFormSubmitting] = React.useState(false);
+
   return (
     <main className="relative min-h-screen bg-white text-neutral-900">
+      {/* Навигация */}
+      <nav className="sticky top-0 z-40 mx-auto flex max-w-6xl justify-end gap-4 px-4 py-4 sm:px-6 lg:px-8">
+        <div className="flex flex-wrap items-center justify-end gap-2 text-[11px] uppercase tracking-[0.2em] text-neutral-500">
+          <a href="#manifesto" className="hover:text-neutral-900 transition">Манифест</a>
+          <span className="text-neutral-300">/</span>
+          <a href="#directions" className="hover:text-neutral-900 transition">Направления</a>
+          <span className="text-neutral-300">/</span>
+          <a href="#cases" className="hover:text-neutral-900 transition">Кейсы</a>
+          <span className="text-neutral-300">/</span>
+          <a href="#special" className="hover:text-neutral-900 transition">Спецпроекты</a>
+          <span className="text-neutral-300">/</span>
+          <a href="#team" className="hover:text-neutral-900 transition">Команда</a>
+          <span className="text-neutral-300">/</span>
+          <a href="#contact" className="hover:text-neutral-900 transition">Контакт</a>
+        </div>
+      </nav>
+
       <div className="mx-auto flex min-h-screen max-w-6xl flex-col px-4 pb-24 pt-8 sm:px-6 lg:px-8 lg:pt-10">
         {/* Hero */}
         <motion.section
@@ -149,7 +170,7 @@ export default function Home() {
             className="pointer-events-none absolute inset-0 -z-10"
           >
             <Image
-              src="/images/lock.jpg"
+              src="/images/lock.jpeg"
               alt="Кодовый замок KEY"
               fill
               priority
@@ -323,8 +344,8 @@ export default function Home() {
             <div className="space-y-3 text-sm text-neutral-700 md:text-base">
               <ul className="space-y-2">
                 {specialProjects.map((project) => (
-                  <li key={project} className="flex gap-3">
-                    <span className="mt-2 h-[1px] w-8 flex-none bg-neutral-300" />
+                  <li key={project} className="flex items-center gap-3">
+                    <span className="h-[1px] w-8 flex-none bg-neutral-300" />
                     <span>{project}</span>
                   </li>
                 ))}
@@ -340,22 +361,27 @@ export default function Home() {
   <img
     src="/logos/boiler-room.svg"
     alt="Boiler Room"
-    className="h-10 md:h-12 w-auto grayscale hover:grayscale-0 transition duration-300 object-contain"
+    className="h-11 w-auto max-w-[120px] object-contain object-center grayscale hover:grayscale-0 transition duration-300"
   />
   <img
     src="/logos/beat-film-festival.png"
     alt="Beat Film Festival"
-    className="h-10 md:h-12 w-auto grayscale hover:grayscale-0 transition duration-300 object-contain"
+    className="h-11 w-auto max-w-[120px] object-contain object-center grayscale hover:grayscale-0 transition duration-300"
   />
   <img
     src="/logos/red-bull.svg"
     alt="Red Bull"
-    className="h-10 md:h-12 w-auto grayscale hover:grayscale-0 transition duration-300 object-contain"
+    className="h-11 w-auto max-w-[120px] object-contain object-center grayscale hover:grayscale-0 transition duration-300"
   />
   <img
-    src="/logos/ballantines.svg"
-    alt="Ballantine’s"
-    className="h-10 md:h-12 w-auto grayscale hover:grayscale-0 transition duration-300 object-contain"
+    src="/logos/ballantines.png"
+    alt="Ballantine's"
+    className="h-11 w-auto max-w-[120px] object-contain object-center grayscale hover:grayscale-0 transition duration-300"
+  />
+  <img
+    src="/logos/bose.png"
+    alt="Bose"
+    className="h-11 w-auto max-w-[120px] object-contain object-center grayscale hover:grayscale-0 transition duration-300"
   />
 </div>
               </div>
@@ -394,31 +420,26 @@ export default function Home() {
           id="contact"
           className="mt-24 border-t border-neutral-200 pt-12 md:mt-32"
         >
-          <div className="mb-10 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-            <div className="space-y-4">
-              <h2 className="text-balance text-3xl font-semibold text-neutral-900 md:text-4xl">
-                KEY — это не форма заявки. Это точка входа.
-              </h2>
-              <p className="max-w-xl text-sm text-neutral-600 md:text-base">
-                Расскажите о задаче, городе, дате и контексте — мы предложим,
-                как превратить её в опыт, который останется в памяти сцены и
-                людей.
-              </p>
-            </div>
-            <p className="text-xs uppercase tracking-[0.25em] text-neutral-500">
-              контакт
+          <div className="mb-10">
+            <h2 className="text-balance text-3xl font-semibold text-neutral-900 md:text-4xl">
+              KEY — это не форма заявки. Это точка входа.
+            </h2>
+            <p className="mt-4 max-w-xl text-sm text-neutral-600 md:text-base">
+              Расскажите о задаче, городе, дате и контексте — мы предложим,
+              как превратить её в опыт, который останется в памяти сцены и
+              людей.
             </p>
           </div>
 
-          <div className="grid gap-8 md:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] md:items-start">
+          <div className="flex flex-col gap-8 sm:flex-row sm:flex-wrap sm:items-start md:gap-12">
             <div className="flex flex-wrap gap-4">
               <ContactButton
-                href="https://t.me/"
+                href="https://t.me/keycrewadmin"
                 icon={Send}
                 label="Telegram"
               />
               <ContactButton
-                href="https://wa.me/"
+                href="https://wa.me/79684508760"
                 icon={MessageCircle}
                 label="WhatsApp"
               />
@@ -433,10 +454,9 @@ export default function Home() {
                 label="Instagram"
               />
             </div>
-
-            <div className="space-y-3 text-xs text-neutral-500">
+            <div className="min-w-0 shrink-0 text-xs text-neutral-500 sm:border-l sm:border-neutral-200 sm:pl-8 md:pl-12">
               <p className="uppercase tracking-[0.25em]">координаты</p>
-              <p>
+              <p className="mt-2 leading-relaxed">
                 Москва / Санкт‑Петербург / Европа
                 <br />
                 Работаем с брендами, артистами, площадками и культурными
@@ -444,80 +464,104 @@ export default function Home() {
               </p>
             </div>
           </div>
-          <div className="mt-12 md:mt-0">
-  <h3 className="text-2xl md:text-3xl font-semibold text-neutral-900 mb-6 text-center md:text-left">
-    Оставить заявку
-  </h3>
-  <p className="text-center md:text-left text-sm text-neutral-600 mb-8">
-    Расскажите о задаче, городе, дате и контексте — ответим в течение дня.
-  </p>
-  <form
-  onSubmit={async (e) => {
-    e.preventDefault(); // ← убирает перезагрузку страницы (белый экран)
 
-    const formData = new FormData(e.currentTarget);
-    const data = Object.fromEntries(formData);
-
-    try {
-      const response = await fetch("https://hooks.zapier.com/hooks/catch/26498980/uc1and7/", {
-        method: "POST",
-        body: JSON.stringify(data),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (response.ok) {
-        alert("Заявка отправлена! Мы свяжемся с вами.");
-      } else {
-        alert("Ошибка отправки. Попробуйте позже.");
-      }
-    } catch (err) {
-      alert("Ошибка сети. Проверьте интернет.");
-    }
-  }}
-  className="grid gap-6"
->
-  <input
-    type="text"
-    name="name"
-    placeholder="Имя / Компания"
-    required
-    className="w-full rounded-lg border border-neutral-300 bg-white px-5 py-3 text-sm text-neutral-900 placeholder-neutral-500 focus:border-neutral-900 focus:outline-none focus:ring-1 focus:ring-neutral-900"
-  />
-
-  <input
-    type="text"
-    name="telegram"
-    placeholder="Telegram @username или телефон"
-    required
-    className="w-full rounded-lg border border-neutral-300 bg-white px-5 py-3 text-sm text-neutral-900 placeholder-neutral-500 focus:border-neutral-900 focus:outline-none focus:ring-1 focus:ring-neutral-900"
-  />
-
-  <input
-    type="text"
-    name="city_date"
-    placeholder="Город и желаемая дата"
-    className="w-full rounded-lg border border-neutral-300 bg-white px-5 py-3 text-sm text-neutral-900 placeholder-neutral-500 focus:border-neutral-900 focus:outline-none focus:ring-1 focus:ring-neutral-900"
-  />
-
-  <textarea
-    name="message"
-    rows={5}
-    placeholder="Расскажите о проекте: формат, бренд/артист, количество гостей, бюджет..."
-    required
-    className="w-full rounded-lg border border-neutral-300 bg-white px-5 py-3 text-sm text-neutral-900 placeholder-neutral-500 focus:border-neutral-900 focus:outline-none focus:ring-1 focus:ring-neutral-900 resize-none"
-  />
-
-<button
-  type="submit"
-  onClick={() => console.log("Кнопка нажата! Клик дошёл до кнопки")}
-  className="mt-4 rounded-full bg-neutral-900 px-8 py-4 text-sm font-medium uppercase tracking-[0.25em] text-white transition hover:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:ring-offset-2"
->
-  Отправить заявку
-</button>
-</form>
-</div>
+          <div className="mt-12">
+            {!showContactForm ? (
+              <button
+                type="button"
+                onClick={() => setShowContactForm(true)}
+                className="group inline-flex items-center gap-3 rounded-full border border-neutral-900 bg-transparent px-8 py-4 text-sm font-medium uppercase tracking-[0.25em] text-neutral-900 transition hover:bg-neutral-900 hover:text-white focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:ring-offset-2"
+              >
+                Оставить заявку
+                <span className="h-[1px] w-8 bg-neutral-400 transition group-hover:w-12 group-hover:bg-white" />
+              </button>
+            ) : (
+              <div className="relative z-10 rounded-2xl border border-neutral-200 bg-neutral-50/50 p-6 md:p-8">
+                <div className="mb-6 flex items-start justify-between gap-4">
+                  <div>
+                    <h3 className="text-2xl font-semibold text-neutral-900 md:text-3xl">
+                      Оставить заявку
+                    </h3>
+                    <p className="mt-2 text-sm text-neutral-600">
+                      Расскажите о задаче, городе, дате и контексте — ответим в течение дня.
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setShowContactForm(false)}
+                    className="shrink-0 rounded-full p-2 text-neutral-500 transition hover:bg-neutral-200 hover:text-neutral-900"
+                    aria-label="Свернуть форму"
+                  >
+                    ×
+                  </button>
+                </div>
+                <form
+                  id="contact-form"
+                  className="grid gap-6"
+                  onSubmit={async (e) => {
+                    e.preventDefault();
+                    if (formSubmitting) return;
+                    const form = e.currentTarget;
+                    const formData = new FormData(form);
+                    const data = Object.fromEntries(formData);
+                    setFormSubmitting(true);
+                    try {
+                      const response = await fetch("/api/send-form", {
+                        method: "POST",
+                        body: JSON.stringify(data),
+                        headers: { "Content-Type": "application/json" },
+                      });
+                      if (response.ok) {
+                        alert("Заявка отправлена! Мы свяжемся с вами.");
+                        setShowContactForm(false);
+                      } else {
+                        alert("Ошибка отправки. Попробуйте позже.");
+                      }
+                    } catch {
+                      alert("Ошибка сети. Проверьте интернет.");
+                    } finally {
+                      setFormSubmitting(false);
+                    }
+                  }}
+                >
+                  <input
+                    type="text"
+                    name="name"
+                    placeholder="Имя / Компания"
+                    required
+                    className="w-full rounded-lg border border-neutral-300 bg-white px-5 py-3 text-sm text-neutral-900 placeholder-neutral-500 focus:border-neutral-900 focus:outline-none focus:ring-1 focus:ring-neutral-900"
+                  />
+                  <input
+                    type="text"
+                    name="telegram"
+                    placeholder="Telegram @username или телефон"
+                    required
+                    className="w-full rounded-lg border border-neutral-300 bg-white px-5 py-3 text-sm text-neutral-900 placeholder-neutral-500 focus:border-neutral-900 focus:outline-none focus:ring-1 focus:ring-neutral-900"
+                  />
+                  <input
+                    type="text"
+                    name="city_date"
+                    placeholder="Город и желаемая дата"
+                    className="w-full rounded-lg border border-neutral-300 bg-white px-5 py-3 text-sm text-neutral-900 placeholder-neutral-500 focus:border-neutral-900 focus:outline-none focus:ring-1 focus:ring-neutral-900"
+                  />
+                  <textarea
+                    name="message"
+                    rows={5}
+                    placeholder="Расскажите о проекте: формат, бренд/артист, количество гостей, бюджет..."
+                    required
+                    className="w-full resize-none rounded-lg border border-neutral-300 bg-white px-5 py-3 text-sm text-neutral-900 placeholder-neutral-500 focus:border-neutral-900 focus:outline-none focus:ring-1 focus:ring-neutral-900"
+                  />
+                  <button
+                    type="submit"
+                    disabled={formSubmitting}
+                    className="relative z-10 cursor-pointer rounded-full bg-neutral-900 px-8 py-4 text-sm font-medium uppercase tracking-[0.25em] text-white transition hover:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:ring-offset-2 disabled:opacity-70 disabled:pointer-events-none"
+                  >
+                    {formSubmitting ? "Отправка…" : "Отправить заявку"}
+                  </button>
+                </form>
+              </div>
+            )}
+          </div>
           <div className="mt-12 flex items-center justify-between text-[11px] uppercase tracking-[0.25em] text-neutral-500">
             <span>© {new Date().getFullYear()} KEY</span>
             <a href="#top" className="hover:text-neutral-900">
@@ -604,7 +648,7 @@ type CaseCardProps = {
 
 function CaseCard({ item }: CaseCardProps) {
   const [index, setIndex] = React.useState(0);
-  const [selectedImage, setSelectedImage] = React.useState<string | null>(null);
+  const [carousel, setCarousel] = React.useState<{ images: string[]; index: number } | null>(null);
   const total = item.images.length;
 
   const current = ((index % total) + total) % total;
@@ -619,6 +663,30 @@ function CaseCard({ item }: CaseCardProps) {
 
   const goPrev = () => {
     setIndex((prev) => prev - 1);
+  };
+
+  const openFullscreen = () => {
+    setCarousel({ images: item.images, index: current });
+  };
+
+  const closeFullscreen = () => setCarousel(null);
+
+  const fullscreenPrev = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setCarousel((prev) =>
+      prev
+        ? { ...prev, index: (prev.index - 1 + prev.images.length) % prev.images.length }
+        : null
+    );
+  };
+
+  const fullscreenNext = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setCarousel((prev) =>
+      prev
+        ? { ...prev, index: (prev.index + 1) % prev.images.length }
+        : null
+    );
   };
 
   return (
@@ -637,7 +705,7 @@ function CaseCard({ item }: CaseCardProps) {
           exit={{ opacity: 0, scale: 0.98 }}
           transition={{ duration: 0.4, ease: "easeOut" }}
           className="absolute inset-0 cursor-pointer"  // ← курсор pointer
-  onClick={() => setSelectedImage(item.images[current])}  // ← клик открывает модалку
+  onClick={openFullscreen}
         >
        <Image
   src={item.images[current]}
@@ -695,39 +763,82 @@ function CaseCard({ item }: CaseCardProps) {
         </h3>
         <ul className="mt-3 space-y-1.5 text-sm text-neutral-700">
           {item.roles.map((role) => (
-            <li key={role} className="flex gap-2">
-              <span className="mt-1 h-[1px] w-4 flex-none bg-neutral-300" />
+            <li key={role} className="flex items-center gap-2">
+              <span className="h-[1px] w-4 flex-none bg-neutral-300" />
               <span>{role}</span>
             </li>
           ))}
         </ul>
       </div>
-      {selectedImage && (
-  <div
-    className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm"
-    onClick={() => setSelectedImage(null)} // клик вне фото — закрыть
-  >
-    <div className="relative max-w-[95vw] max-h-[95vh] w-full h-full p-4">
-      {/* Крестик */}
-      <button
-        className="absolute top-6 right-6 z-10 text-white text-5xl hover:text-gray-300 transition"
-        onClick={() => setSelectedImage(null)}
-      >
-        ×
-      </button>
+      {carousel &&
+        typeof document !== "undefined" &&
+        createPortal(
+          <div
+            className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/95"
+            style={{
+              transform: "translateZ(0)",
+              willChange: "transform",
+              isolation: "isolate",
+            }}
+            onClick={closeFullscreen}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Просмотр фото"
+          >
+            <div
+              className="relative max-w-[95vw] max-h-[95vh] w-full h-full p-4 flex items-center justify-center"
+              onClick={(e) => e.stopPropagation()}
+              style={{ transform: "translateZ(0)" }}
+            >
+              <button
+                type="button"
+                className="absolute top-6 right-6 z-10 text-white text-5xl hover:text-gray-300 transition"
+                onClick={closeFullscreen}
+                aria-label="Закрыть"
+              >
+                ×
+              </button>
 
-      {/* Большое фото */}
-      <Image
-        src={selectedImage}
-        alt="Увеличенное фото"
-        fill
-        className="object-contain"
-        quality={95}
-        priority
-      />
-    </div>
-  </div>
-)}
+              {carousel.images.length > 1 && (
+                <>
+                  <button
+                    type="button"
+                    onClick={fullscreenPrev}
+                    className="absolute left-2 top-1/2 z-10 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/40 bg-black/40 text-white backdrop-blur-sm transition hover:bg-black/70 hover:border-white/60 md:left-4 md:h-14 md:w-14"
+                    aria-label="Предыдущее фото"
+                  >
+                    <ChevronLeft className="h-6 w-6 md:h-8 md:w-8" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={fullscreenNext}
+                    className="absolute right-2 top-1/2 z-10 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/40 bg-black/40 text-white backdrop-blur-sm transition hover:bg-black/70 hover:border-white/60 md:right-4 md:h-14 md:w-14"
+                    aria-label="Следующее фото"
+                  >
+                    <ChevronRight className="h-6 w-6 md:h-8 md:w-8" />
+                  </button>
+                </>
+              )}
+
+              <Image
+                key={carousel.images[carousel.index]}
+                src={carousel.images[carousel.index]}
+                alt={`${item.title} — фото ${carousel.index + 1} из ${carousel.images.length}`}
+                fill
+                className="object-contain"
+                quality={95}
+                priority
+              />
+
+              {carousel.images.length > 1 && (
+                <div className="absolute bottom-4 left-1/2 z-10 -translate-x-1/2 rounded-full bg-black/50 px-4 py-2 text-xs text-white/90 backdrop-blur-sm">
+                  {carousel.index + 1} / {carousel.images.length}
+                </div>
+              )}
+            </div>
+          </div>,
+          document.body
+        )}
     </motion.article>
   );
 }
