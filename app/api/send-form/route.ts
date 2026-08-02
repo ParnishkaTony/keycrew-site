@@ -7,6 +7,7 @@ type FormBody = {
   telegram?: string;
   city_date?: string;
   message?: string;
+  services?: string[];
 };
 
 export async function POST(request: Request) {
@@ -35,6 +36,9 @@ export async function POST(request: Request) {
   const telegram = body.telegram ?? "";
   const cityDate = body.city_date ?? "";
   const message = body.message ?? "";
+  const services = Array.isArray(body.services)
+    ? body.services.filter((s): s is string => typeof s === "string" && s.length > 0)
+    : [];
 
   const text = [
     "🔑 <b>Новая заявка с сайта KEY</b>",
@@ -42,6 +46,9 @@ export async function POST(request: Request) {
     `<b>Имя / Компания:</b> ${escapeHtml(name)}`,
     `<b>Telegram / телефон:</b> ${escapeHtml(telegram)}`,
     cityDate ? `<b>Город и дата:</b> ${escapeHtml(cityDate)}` : null,
+    services.length > 0
+      ? `<b>Запрос по услугам:</b> ${escapeHtml(services.join(" · "))}`
+      : null,
     "",
     `<b>Сообщение:</b>`,
     escapeHtml(message),

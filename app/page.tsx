@@ -52,6 +52,9 @@ const cases: CaseItem[] = [
       "арт-дирекшен медиа- и арт-коллабораций",
       "сценография и работа со световыми инсталляциями",
       "создание визуальной архитектуры событий",
+      "мультикамерная съёмка и трансляция",
+      "съёмка клипов и event highlights",
+      "элементы виртуального и media-продакшена",
     ],
   },
   {
@@ -68,6 +71,7 @@ const cases: CaseItem[] = [
       "кураторская команда и программирование",
       "продюсирование и технический продакшен событий",
       "развитие экосистемы резидентов и промоутерских команд",
+      "съёмка highlights и контент для соцсетей",
     ],
   },
   {
@@ -84,6 +88,8 @@ const cases: CaseItem[] = [
       "концепция и арт-дирекшн серии событий",
       "бренд-партнёрства и интеграции",
       "сценография и работа с визуальной идентичностью",
+      "мультикамерная съёмка и трансляция",
+      "съёмка клипов и highlights серии",
     ],
   },
   {
@@ -106,6 +112,7 @@ const cases: CaseItem[] = [
       "запуск культурного пространства под ключ",
       "стратегия программирования и коллабораций",
       "креативный продакшен и медиа-сопровождение",
+      "документация событий и постпродакшен",
     ],
   },
 ];
@@ -117,7 +124,19 @@ const specialProjects = [
   "Сценарии присутствия бренда на фестивалях и в турах",
 ];
 
-const partners = ["BRAND A", "BRAND B", "BRAND C", "INSTITUTION", "VENUE"];
+const technicalSolutions = [
+  "съёмка клипов и музыкальных видео",
+  "полный цикл организации трансляций — от multi-cam до дистрибуции",
+  "виртуальный продакшен и hybrid-форматы",
+  "светодизайн и видеопродакшен под ключ",
+];
+
+const formServiceOptions = [
+  { id: "service_clip", label: "Нужна съёмка клипа" },
+  { id: "service_stream", label: "Нужна трансляция" },
+  { id: "service_virtual", label: "Виртуальный / hybrid-продакшен" },
+  { id: "service_light", label: "Световой дизайн" },
+] as const;
 
 export default function Home() {
   const [showContactForm, setShowContactForm] = React.useState(false);
@@ -129,6 +148,8 @@ export default function Home() {
       <nav className="sticky top-0 z-40 mx-auto flex max-w-6xl justify-end gap-4 px-4 py-4 sm:px-6 lg:px-8">
         <div className="flex flex-wrap items-center justify-end gap-2 text-[11px] uppercase tracking-[0.2em] text-neutral-500">
           <a href="#manifesto" className="hover:text-neutral-900 transition">Манифест</a>
+          <span className="text-neutral-300">/</span>
+          <a href="#showreel" className="hover:text-neutral-900 transition">Шоурил</a>
           <span className="text-neutral-300">/</span>
           <a href="#directions" className="hover:text-neutral-900 transition">Направления</a>
           <span className="text-neutral-300">/</span>
@@ -223,9 +244,23 @@ export default function Home() {
         {/* Manifesto */}
         <section
           id="manifesto"
-          className="mt-24 border-t border-slate-800/80 pt-10 md:mt-32"
+          className="relative mt-24 overflow-hidden rounded-[32px] border border-neutral-200 bg-white px-6 pt-10 pb-12 md:mt-32 md:px-10"
         >
-          <div className="mb-10 flex flex-col justify-between gap-6 md:flex-row md:items-end">
+          <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+            <video
+              className="h-full w-full object-cover opacity-20"
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+            >
+              <source src="/video/key-showreel-bg.mp4" type="video/mp4" />
+            </video>
+            <div className="absolute inset-0 bg-gradient-to-b from-white/80 via-white/65 to-white/90" />
+          </div>
+
+          <div className="relative z-10 mb-10 flex flex-col justify-between gap-6 md:flex-row md:items-end">
             <div>
               <h2 className="text-balance text-3xl font-semibold text-neutral-900 md:text-4xl">
                 KEY — это доступ.
@@ -241,7 +276,7 @@ export default function Home() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.25 }}
-            className="space-y-4 text-base leading-relaxed text-neutral-700 md:text-lg"
+            className="relative z-10 space-y-4 text-base leading-relaxed text-neutral-700 md:text-lg"
           >
             {manifestoParagraphs.map((paragraph, index) => (
               <motion.p key={index} variants={fadeInUp}>
@@ -249,6 +284,48 @@ export default function Home() {
               </motion.p>
             ))}
           </motion.div>
+        </section>
+
+        {/* Showreel placeholder */}
+        <section
+          id="showreel"
+          className="mt-24 border-t border-neutral-200 pt-10 md:mt-32"
+        >
+          <div className="mb-8 flex flex-col justify-between gap-6 md:flex-row md:items-end">
+            <div>
+              <h2 className="text-3xl font-semibold text-neutral-900 md:text-4xl">
+                KEY in motion
+              </h2>
+              <p className="mt-3 max-w-xl text-sm text-neutral-600 md:text-base">
+                Вот как выглядят наши события на деле
+              </p>
+            </div>
+            <p className="text-xs uppercase tracking-[0.25em] text-neutral-500">
+              шоурил
+            </p>
+          </div>
+
+          <div className="overflow-hidden rounded-3xl border border-neutral-200 bg-neutral-950 shadow-[0_18px_60px_rgba(15,23,42,0.08)]">
+            <div className="relative aspect-video w-full">
+              {/*
+                Вставка видео позже — один из вариантов:
+                1) YouTube: <iframe className="absolute inset-0 h-full w-full" src="https://www.youtube.com/embed/VIDEO_ID" title="KEY showreel" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
+                2) Vimeo: <iframe className="absolute inset-0 h-full w-full" src="https://player.vimeo.com/video/VIDEO_ID" title="KEY showreel" allow="autoplay; fullscreen; picture-in-picture" allowFullScreen />
+                3) HTML5: <video className="h-full w-full object-cover" controls playsInline poster="/images/showreel-poster.jpg"><source src="/video/key-showreel.mp4" type="video/mp4" /></video>
+              */}
+              <div
+                className="absolute inset-0 flex flex-col items-center justify-center gap-3 px-6 text-center"
+                aria-hidden="true"
+              >
+                <span className="text-[11px] uppercase tracking-[0.35em] text-neutral-500">
+                  video placeholder · 16:9
+                </span>
+                <span className="max-w-md text-sm text-neutral-400">
+                  Сюда подключим шоурил — embed или self-hosted
+                </span>
+              </div>
+            </div>
+          </div>
         </section>
 
         {/* Directions */}
@@ -278,10 +355,12 @@ export default function Home() {
             />
             <DirectionCard
               title="K — PRODUCTION"
-              href="#case-media-art"
+              href="#tech"
               items={[
                 "продюсирование и технический продакшен под ключ",
                 "сценография, свет, звук, media-инсталляции",
+                "организация трансляций — multi-cam, hybrid, online-only",
+                "виртуальный продакшен: LED-сцены, виртуальные студии, XR / Unreal",
                 "стейдж-менеджмент, райдеры, логистика",
                 "работа с площадками и городской инфраструктурой",
               ]}
@@ -292,11 +371,39 @@ export default function Home() {
               items={[
                 "креативный концепт и арт-дирекшн",
                 "визуальная идентичность и motion",
-                "контент для компаний и артистов",
+                "съёмка клипов и short-form — music videos, Reels, брендовые ролики",
                 "документация и постпродакшен событий",
+                "контент для компаний и артистов",
               ]}
             />
           </div>
+        </section>
+
+        {/* Technical solutions */}
+        <section
+          id="tech"
+          className="mt-24 border-t border-slate-800/80 pt-10 md:mt-32"
+        >
+          <div className="mb-10 flex flex-col justify-between gap-6 md:flex-row md:items-end">
+            <h2 className="text-3xl font-semibold text-neutral-900 md:text-4xl">
+              Технические решения и контент
+            </h2>
+            <p className="max-w-sm text-xs uppercase tracking-[0.25em] text-neutral-500">
+              продакшен / трансляции / свет
+            </p>
+          </div>
+
+          <ul className="grid gap-3 sm:grid-cols-2">
+            {technicalSolutions.map((item) => (
+              <li
+                key={item}
+                className="flex items-start gap-3 rounded-2xl border border-neutral-200 bg-white px-5 py-4 text-sm text-neutral-700 shadow-[0_12px_40px_rgba(15,23,42,0.04)] md:text-base"
+              >
+                <span className="mt-2.5 h-[1px] w-8 flex-none bg-neutral-300" />
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
         </section>
 
         {/* Cases */}
@@ -421,7 +528,7 @@ export default function Home() {
         >
           <div className="mb-10">
             <h2 className="text-balance text-3xl font-semibold text-neutral-900 md:text-4xl">
-              KEY — это не форма заявки. Это точка входа.
+              KEY - это точка входа.
             </h2>
             <p className="mt-4 max-w-xl text-sm text-neutral-600 md:text-base">
               Расскажите о задаче, городе, дате и контексте — мы предложим,
@@ -502,12 +609,16 @@ export default function Home() {
                     if (formSubmitting) return;
                     const form = e.currentTarget;
                     const formData = new FormData(form);
-                    const data = Object.fromEntries(formData);
+                    const data = Object.fromEntries(formData) as Record<
+                      string,
+                      FormDataEntryValue
+                    >;
+                    const services = formData.getAll("services").map(String);
                     setFormSubmitting(true);
                     try {
                       const response = await fetch("/api/send-form", {
                         method: "POST",
-                        body: JSON.stringify(data),
+                        body: JSON.stringify({ ...data, services }),
                         headers: { "Content-Type": "application/json" },
                       });
                       if (response.ok) {
@@ -550,6 +661,27 @@ export default function Home() {
                     required
                     className="w-full resize-none rounded-lg border border-neutral-300 bg-white px-5 py-3 text-sm text-neutral-900 placeholder-neutral-500 focus:border-neutral-900 focus:outline-none focus:ring-1 focus:ring-neutral-900"
                   />
+                  <fieldset className="space-y-3">
+                    <legend className="text-xs uppercase tracking-[0.2em] text-neutral-500">
+                      Что нужно в проекте
+                    </legend>
+                    <div className="grid gap-2 sm:grid-cols-2">
+                      {formServiceOptions.map(({ id, label }) => (
+                        <label
+                          key={id}
+                          className="flex cursor-pointer items-center gap-3 rounded-lg border border-neutral-200 bg-white px-4 py-3 text-sm text-neutral-800 transition hover:border-neutral-400 has-[:checked]:border-neutral-900 has-[:checked]:bg-neutral-50"
+                        >
+                          <input
+                            type="checkbox"
+                            name="services"
+                            value={label}
+                            className="h-4 w-4 shrink-0 rounded border-neutral-400 text-neutral-900 focus:ring-neutral-900"
+                          />
+                          <span>{label}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </fieldset>
                   <button
                     type="submit"
                     disabled={formSubmitting}

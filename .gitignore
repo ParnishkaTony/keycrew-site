@@ -24,6 +24,11 @@
 .DS_Store
 *.pem
 
+# unrelated local projects (do not commit)
+/comfort-scraper
+/skygeorgia-landing
+
+
 # debug
 npm-debug.log*
 yarn-debug.log*
